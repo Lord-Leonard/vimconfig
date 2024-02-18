@@ -5,6 +5,7 @@ local settingsPathNew = os.getenv("localappdata") ..
     "\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settingsnew.json"
 
 function GoColorYourself(color)
+  -- color = color or GetColor()
   color = color or GetColor()
 
   local settings = io.open(
@@ -54,7 +55,7 @@ end
 
 CurrentFlavor = {
   dark = "catppuccin-frappe",
-  light = "cattpuccine-latte"
+  light = "catppuccin-latte"
 }
 
 
@@ -78,6 +79,7 @@ return {
 
     config = function()
       require("catppuccin").setup({
+        falvor = "latte",
         integrations = {
           cmp = true,
           gitsigns = true,
@@ -85,8 +87,6 @@ return {
           mason = true
         }
       })
-
-      GoColorYourself()
     end
   },
   {
