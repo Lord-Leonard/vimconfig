@@ -19,6 +19,9 @@ return {
     "ray-x/cmp-treesitter",
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
+
+    -- schema Store
+    "b0o/schemastore.nvim",
   },
 
   config = function()
@@ -39,8 +42,8 @@ return {
     require("mason-lspconfig").setup({
       ensure_installed = {
         -- TODO: decide for one of them. Not today
-        -- omnisharp
-        -- csharp_ls
+        "omnisharp",
+        -- "csharp_ls",
         "cssls",
         "dockerls",
         "docker_compose_language_service",
@@ -64,10 +67,41 @@ return {
           }
         end,
 
+        --["csharp_ls"] = function()
+        --  require "lspconfig".csharp_ls.setup {
+        --    capabilities = capabilities,
+        --    filetypes = { "cs", "aspx" }
+        --  }
+        --end,
+
+        ["jsonls"] = function()
+          require "lspconfig".jsonls.setup {
+            capabilities = capabilities,
+            settings = {
+              json = {
+                schemas = require "schemastore".json.schemas(),
+                validate = { enable = true }
+              }
+            }
+          }
+        end,
+
+        ["omnisharp"] = function()
+          require "lspconfig".omnisharp.setup {
+            -- cmd = { "omnisharp" },
+            capabilities = capabilities,
+            -- filetypes = { "cs", "aspx" },
+            -- enable_roslyn_analyzers = true,
+            -- analyze_open_documents_only = true,
+            -- organize_imports_on_format = true,
+            -- enable_import_completion = true,
+          }
+        end,
+
         ["tsserver"] = function()
           require 'lspconfig'.tsserver.setup {
             capabilities = capabilities,
-            cmd = { os.getenv("appdata") .. "\\nvm\\v20.11.0\\typescript-language-server", "--stdio"}
+            cmd = { os.getenv("appdata") .. "\\nvm\\v20.11.0\\typescript-language-server", "--stdio" }
           }
         end,
 

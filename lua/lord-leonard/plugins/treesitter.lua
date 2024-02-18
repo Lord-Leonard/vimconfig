@@ -3,6 +3,11 @@ return {
   build = ":TSUpdate",
   config = function()
     local configs = require("nvim-treesitter.configs")
+    local parsers = require "nvim-treesitter.parsers"
+
+    local parser_config = parsers.get_parser_configs()
+
+    parser_config.html.filetype_to_parsename = "aspx"
 
     configs.setup({
       ensure_installed = {
@@ -22,12 +27,10 @@ return {
         "dockerfile"
       },
 
-      sync_install = false,
       auto_install = true,
 
       hightlight = {
         enabled = true,
-        additional_vim_regex_highlighting = false,
       },
 
       indent = {
@@ -37,9 +40,9 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          scope_incremental = false,
+          init_selection = "<CR>",
+          node_incremental = "<CR>",
+          scope_incremental = "<TAB>",
           node_decremental = "<bs>",
         },
       },
