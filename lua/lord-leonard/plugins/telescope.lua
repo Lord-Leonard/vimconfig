@@ -3,6 +3,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-live-grep-args.nvim",
+    "nvim-telescope/telescope-file-browser.nvim",
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'make'
@@ -12,13 +13,11 @@ return {
   config = function()
     local builtin = require("telescope.builtin")
     local layout = require('telescope.actions.layout')
+    local telescope = require("telescope")
 
     require("telescope").setup({
       defaults = {
         path_display = { "smart" },
-        preview = {
-          hide_on_startup = true
-        },
 
         mappings = {
           i = {
@@ -28,12 +27,22 @@ return {
             ["<leader>tp"] = layout.toggle_preview
           }
         }
+      },
+      extensions = {
+        fzf = {
+          fuzzy = false,               -- false will only do exact matching
+          override_generic_sorter = true, -- override the generic sorter
+          override_file_sorter = true, -- override the file sorter
+          case_mode = "smart_case",   -- or "ignore_case" or "respect_case"
+          -- the default case_mode is "smart_case"
+        }
       }
     })
 
     -- Plugins
     require('telescope').load_extension('fzf')            -- fast soting
     require("telescope").load_extension("live_grep_args") -- live grep with arguments
+    require("telescope").load_extension "file_browser"    -- replace netrw
 
     -- keymaps
 
@@ -69,5 +78,8 @@ return {
 
     vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
     vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
+    vim.keymap.set("n", "<leader>ft",
+      function() telescope.extensions.file_browser.file_browser(require('telescope.themes').get_dropdown({})) end, {})
   end
 }
