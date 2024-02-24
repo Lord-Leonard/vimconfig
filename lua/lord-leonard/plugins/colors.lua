@@ -5,7 +5,6 @@ local settingsPathNew = os.getenv("localappdata") ..
     "\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settingsnew.json"
 
 function GoColorYourself(color)
-  -- color = color or GetColor()
   color = color or GetColor()
 
   local settings = io.open(
@@ -54,8 +53,8 @@ function GoColorYourself(color)
 end
 
 CurrentFlavor = {
-  dark = "catppuccin-frappe",
-  light = "catppuccin-latte"
+  dark = "catppuccin-frappe", -- catppuccin-frappe
+  light = "catppuccin-frappe" -- catppuccin-latte
 }
 
 
