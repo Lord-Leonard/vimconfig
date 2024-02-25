@@ -25,7 +25,7 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
-vim.opt.signcolumn = "auto:2-5"
+vim.opt.signcolumn = "auto:1-5"
 vim.opt.isfname:append("@-@")
 
 -- append path for node 20 to PATH so that all the lsps can start ...
