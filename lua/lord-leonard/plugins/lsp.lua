@@ -211,47 +211,6 @@ return {
           { name = "buffer" },
         })
       })
-
-
-      vim.diagnostic.config({
-        severity_sort = true,
-
-        -- TODO: prüfen 
-        -- signs = {
-        --   text = {
-        --     [vim.diagnostic.severity.ERROR] = require("lazyvim.config").icons.diagnostics.Error,
-        --     [vim.diagnostic.severity.WARN] = require("lazyvim.config").icons.diagnostics.Warn,
-        --     [vim.diagnostic.severity.HINT] = require("lazyvim.config").icons.diagnostics.Hint,
-        --     [vim.diagnostic.severity.INFO] = require("lazyvim.config").icons.diagnostics.Info,
-        --   },
-        -- },
-
-        underline = true,
-        update_in_insert = false,
-
-        virtual_text = {
-          spacing = 4,
-          source = "if_many",
-          prefix = "●",
-        },
-
-        float = {
-          focusable = false,
-          style = "minimal",
-          border = "rounded",
-          source = "always",
-          header = "",
-          prefix = "",
-        },
-      })
-
-
-      -- Icons
-      local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
-      for type, icon in pairs(signs) do
-        local hl = "LspDiagnosticsSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-      end
     end
   }
 }
