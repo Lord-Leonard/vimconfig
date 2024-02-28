@@ -25,6 +25,8 @@ return {
 
       -- schema Store
       "b0o/schemastore.nvim",
+      -- prettier
+      "prettier/vim-prettier",
     },
 
     config = function()
@@ -65,7 +67,9 @@ return {
           attach_opts)
         vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, attach_opts)
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, attach_opts)
-        vim.keymap.set('n', 'so', require('telescope.builtin').lsp_references, attach_opts)
+        vim.keymap.set('n', 'so', function()
+          require('telescope.builtin').lsp_references(require('telescope.themes').get_dropdown({}))
+        end, attach_opts)
       end
 
       require("mason-lspconfig").setup({
@@ -85,7 +89,7 @@ return {
           "lua_ls",
           "marksman", -- markdown
           "tailwindcss",
-          "lemminx"
+          "lemminx",
         },
 
         handlers = {

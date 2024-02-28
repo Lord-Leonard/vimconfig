@@ -25,7 +25,7 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "yes:2"
 vim.opt.isfname:append("@-@")
 
 -- append path for node 20 to PATH so that all the lsps can start ...
@@ -37,8 +37,8 @@ vim.env.PATH = node_path .. vim.env.PATH
 vim.opt.title = true
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
   callback = function()
-    -- use this if you want - cwd 
-    -- [[%t – %{fnamemodify(getcwd(), ':t')}]] 
+    -- use this if you want - cwd
+    -- [[%t – %{fnamemodify(getcwd(), ':t')}]]
 
     vim.opt.titlestring = [[%t]]
     print("vim.opt.titlestring")
@@ -47,17 +47,16 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 
 
 -- highlight yanked text for 200ms using the "Visual" highlight group
-vim.cmd[[
+vim.cmd [[
 augroup highlight_yank
 autocmd!
 au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
 augroup END
 ]]
 
--- disable unused languages 
+-- disable unused languages
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python_provider = 0
 vim.g.loaded_python3_provider = 0
-
