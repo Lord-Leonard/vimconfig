@@ -78,13 +78,15 @@ return {
 
     config = function()
       require("catppuccin").setup({
-        falvor = "latte",
+        falvor = "catppuccin-frappe",
         integrations = {
           cmp = true,
           gitsigns = true,
           treesitter = true,
-          mason = true
-        }
+          mason = true,
+          harpoon = true,
+        },
+        transparent_background = true,
       })
     end
   },

@@ -34,16 +34,16 @@ vim.env.PATH = node_path .. vim.env.PATH
 
 
 -- enable tab title
-vim.opt.title = true
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  callback = function()
-    -- use this if you want - cwd
-    -- [[%t – %{fnamemodify(getcwd(), ':t')}]]
-
-    vim.opt.titlestring = [[%t]]
-    print("vim.opt.titlestring")
-  end
-})
+-- vim.opt.title = true
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+--   callback = function()
+--     -- use this if you want - cwd
+--     -- [[%t – %{fnamemodify(getcwd(), ':t')}]]
+-- 
+--     vim.opt.titlestring = [[%t]]
+--     print("vim.opt.titlestring")
+--   end
+-- })
 
 
 -- highlight yanked text for 200ms using the "Visual" highlight group
