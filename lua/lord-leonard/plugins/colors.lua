@@ -5,7 +5,7 @@ local settingsPathNew = os.getenv("localappdata") ..
     "\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settingsnew.json"
 
 function GoColorYourself(color)
-  color = color or GetColor()
+  color = GetColor(color)
 
   local settings = io.open(
     settingsPath,
@@ -48,19 +48,25 @@ function GoColorYourself(color)
 
   vim.cmd.colorscheme(color)
 
-  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  --vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  --vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
 CurrentFlavor = {
   dark = "catppuccin-frappe", -- catppuccin-frappe
-  light = "catppuccin-frappe" -- catppuccin-latte
+  light = "catppuccin-frappe"  -- catppuccin-latte
 }
 
 
-function GetColor()
+function GetColor(color)
+  if (color == "light") then
+    return CurrentFlavor.light
+  elseif (color == "dark") then
+    return CurrentFlavor.dark
+  end
+
   local currentTime = os.date("*t", os.time())
-  if (currentTime.hour < 6 or currentTime.hour > 18) then
+  if (currentTime.hour < 10 or currentTime.hour > 16) then
     return CurrentFlavor.dark
   else
     return CurrentFlavor.light
@@ -79,15 +85,28 @@ return {
     config = function()
       require("catppuccin").setup({
         falvor = "catppuccin-frappe",
+        compile_path = vim.fn.stdpath "cache" .. "/catppuccin",
         integrations = {
           cmp = true,
           gitsigns = true,
           treesitter = true,
           mason = true,
           harpoon = true,
+          noice = true,
+          notify = true,
+          overseer = true,
+          lsp_trouble = true,
         },
         transparent_background = true,
       })
+
+
+      vim.keymap.set("n", "<leader>tbg", function()
+        local cat = require("catppuccin")
+        cat.options.transparent_background = not cat.options.transparent_background
+        cat.compile()
+        vim.cmd.colorscheme(vim.g.colors_name)
+      end)
     end
   },
   {

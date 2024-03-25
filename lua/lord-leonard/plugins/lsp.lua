@@ -52,7 +52,7 @@ return {
       vim.keymap.set('n', '<leader>Q', vim.diagnostic.setqflist)
 
       -- Add nvim-lspconfig plugin
-      local on_attach = function(_, bufnr)
+      On_lsp_attach = function(_, bufnr)
         local attach_opts = { silent = true, buffer = bufnr }
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, attach_opts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, attach_opts)
@@ -83,13 +83,14 @@ return {
           "eslint",
           "emmet_ls",
           "html",
-          -- "custom_elements_ls",
+          --"custom_elements_ls",
           "jsonls",
           "tsserver", -- js and ts
           "lua_ls",
           "marksman", -- markdown
           "tailwindcss",
           "lemminx",
+          "gopls"
         },
 
         handlers = {
@@ -97,7 +98,7 @@ return {
           -- extend default handler with capabilities
           function(server_name)
             require("lspconfig")[server_name].setup {
-              on_attach = on_attach,
+              on_attach = On_lsp_attach,
               capabilities = capabilities,
             }
           end,
@@ -111,7 +112,7 @@ return {
 
           ["jsonls"] = function()
             require "lspconfig".jsonls.setup {
-              on_attach = on_attach,
+              on_attach = On_lsp_attach,
               capabilities = capabilities,
               settings = {
                 json = {
@@ -125,7 +126,7 @@ return {
           ["omnisharp"] = function()
             require "lspconfig".omnisharp.setup {
               -- cmd = { "omnisharp" },
-              on_attach = on_attach,
+              on_attach = On_lsp_attach,
               capabilities = capabilities,
               -- filetypes = { "cs", "aspx" },
               -- enable_roslyn_analyzers = true,
@@ -137,7 +138,7 @@ return {
 
           ["tsserver"] = function()
             require 'lspconfig'.tsserver.setup {
-              on_attach = on_attach,
+              on_attach = On_lsp_attach,
               capabilities = capabilities,
               cmd = { os.getenv("appdata") .. "\\nvm\\v20.11.0\\typescript-language-server", "--stdio" }
             }
@@ -145,7 +146,7 @@ return {
 
           ["lua_ls"] = function()
             require 'lspconfig'.lua_ls.setup {
-              on_attach = on_attach,
+              on_attach = On_lsp_attach,
               capabilities = capabilities,
               settings = {
                 Lua = {
@@ -157,10 +158,30 @@ return {
             }
           end,
 
+          ["gopls"] = function()
+            require("lspconfig").gopls.setup({
+              on_attach = On_lsp_attach,
+              capabilities = capabilities,
+              settings = {
+                gopls = {
+                  analyses = {
+                    unusedparams = true,
+                  },
+                  staticcheck = true,
+                  gofumpt = true,
+                },
+              },
+            })
+          end,
+
+          ["jdtls"] = function()
+            return true
+          end,
+
           -- needs fixin
           -- ["custom_elements_ls"] = function()
           --   require 'lspconfig'.custom_elements_ls.setup {
-          --     on_attach = on_attach,
+          --     on_attach = On_lsp_attach,
           --     capabilities = capabilities,
           --   }
           -- end
@@ -181,28 +202,10 @@ return {
           ["<C-d>"] = cmp.mapping.scroll_docs(-4),
           ["<C-u>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete {},
-          ['<CR>'] = cmp.mapping.confirm {
+          ['<C-y>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
           },
-          ["<TAB>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-          ["<S-TAB>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },

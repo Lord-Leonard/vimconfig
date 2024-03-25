@@ -60,3 +60,13 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python_provider = 0
 vim.g.loaded_python3_provider = 0
+
+
+-- no bom TODO: Fix
+vim.cmd([[autocmd FileType * setlocal nobomb]])
+vim.opt.bomb = false
+
+-- hide files from netrw
+vim.g.netrw_list_hide = '.*\\.js\\.map$,.*\\.d\\.ts$,.*\\.js$'
+
+

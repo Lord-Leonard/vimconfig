@@ -42,7 +42,7 @@ return {
     -- Plugins
     require('telescope').load_extension('fzf')            -- fast soting
     require("telescope").load_extension("live_grep_args") -- live grep with arguments
-    require("telescope").load_extension "file_browser"    -- replace netrw
+    require("telescope").load_extension("file_browser")   -- replace netrw
 
     -- keymaps
 
